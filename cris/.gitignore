@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Spark tarballs
+*.tgz
+*.tar.gz
+
+# Editor swap files
+*.swp
+
+# Environment / runtime
+.env
+*.log
+
+# Spark temporary files
+*.crc
