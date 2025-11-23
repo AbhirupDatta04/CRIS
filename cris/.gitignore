@@ -15,3 +15,16 @@ __pycache__/
 
 # Spark temporary files
 *.crc
+
+workspaces/CRIS/cris/datalake/raw
+
+
+# Ignore all Parquet files anywhere
+*.parquet
+
+# Ignore Delta files
+*_delta_log/
+
+# Ignore Spark job result markers
+_SUCCESS
+_PART*
