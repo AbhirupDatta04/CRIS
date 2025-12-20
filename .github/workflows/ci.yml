@@ -24,6 +24,7 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run unit tests
+      - name: Run CRIS unit tests
         run: |
-          if [ -d tests ]; then pytest tests; else echo "No tests yet"; fi
+          pip install pytest
+          pytest cris/tests/unit
