@@ -37,11 +37,18 @@ def main():
             round(col("spend_30d")/col("txn_count_30d"),2)
             ).otherwise(0)
         )
+        .withColumn(
+            "recency_days_is_inactive_30d",
+            when(col("recency_days") > 30, 
+                    1
+                ).otherwise(0)
+        )
         .select(
             "account_id",
             "spend_30d",
             "txn_count_30d",
-            "spend_per_txn_30d"
+            "spend_per_txn_30d",
+            "recency_days_is_inactive_30d"
         )
     )
 
