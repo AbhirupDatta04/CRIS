@@ -19,7 +19,8 @@ from pyspark.sql.functions import (
     max as _max,
     current_date,
     date_sub,
-    datediff
+    datediff,
+    when
 )
 
 SILVER_PATH = "/workspaces/CRIS/cris/datalake/silver/transactions"
@@ -56,8 +57,8 @@ def main():
     recent_df = recent_df.filter(col("amount") > 0) #Changed as only positive amounts should be there for Risk
 
 
-    # 4. Aggregate into credit risk behavioural signals
-    gold_df = (
+    # 4. Base behavioural aggregates (unchanged)
+    gold_base_df = (
         recent_df
         .groupBy("account_id")
         .agg(
@@ -70,14 +71,48 @@ def main():
         )
     )
 
-    # 5. Write Gold dataset
+    # 5. Add LOW ACTIVITY FLAG (engagement risk)
+    gold_with_activity_flag = gold_base_df.withColumn(
+        "low_activity_flag_30d",
+        when(col("txn_count_30d") <= 2, 1).otherwise(0)
+    )
+
+    # 6. Join average transaction amount back to transaction level
+    txn_with_avg_df = recent_df.join(
+        gold_base_df.select("account_id", "avg_amount_30d"),
+        on="account_id",
+        how="left"
+        )
+
+    # 7. Flag high-value transactions (relative threshold)
+    txn_flagged_df = txn_with_avg_df.withColumn(
+        "is_high_value_txn",
+        when(col("amount") >= 2 * col("avg_amount_30d"), 1).otherwise(0)
+    )
+    # 8. Compute high-value transaction ratio per account
+    high_value_ratio_df = (
+        txn_flagged_df
+        .groupBy("account_id")
+        .agg(
+        (_sum("is_high_value_txn") / _count("*"))
+        .alias("high_value_txn_ratio_30d")
+        )
+        )
+
+    # 9. Final Gold table (safe join)
+    gold_df = (
+        gold_with_activity_flag
+        .join(high_value_ratio_df, on="account_id", how="left")
+        .fillna({"high_value_txn_ratio_30d": 0.0})
+    )
+    # 8. Write Gold dataset
     (
         gold_df.write
         .mode("overwrite")
         .parquet(GOLD_PATH)
     )
 
-    print("🟡 Gold risk dataset written to:", GOLD_PATH)
+    print("🟡 Enhanced Gold risk dataset written to:", GOLD_PATH)
     spark.stop()
 
 
