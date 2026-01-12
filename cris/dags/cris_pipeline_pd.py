@@ -11,6 +11,8 @@ Purpose:
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+import subprocess
+
 
 # -----------------------------
 # Task Callables (Wrappers Only)
@@ -60,16 +62,40 @@ def check_gold_ready(**context):
 
 def build_features(**context):
     """
-    Trigger feature engineering logic
+    Orchestration wrapper:
+    - Calls feature engineering entry script
+    - Delegates all business logic outside Airflow
     """
-    print("Building account-level features...")
+    process_date = context["ds"]
+
+    subprocess.run(
+        [
+            "python",
+            "scripts/run_feature_job.py",
+            "--date",
+            process_date,
+        ],
+        check=True,
+    )
 
 
 def generate_labels(**context):
     """
-    Trigger rule-based default label generation
+    Orchestration wrapper:
+    - Calls label generation entry script
+    - Delegates all business logic outside Airflow
     """
-    print("Generating default labels...")
+    process_date = context["ds"]
+
+    subprocess.run(
+        [
+            "python",
+            "scripts/run_label_job.py",
+            "--date",
+            process_date,
+        ],
+        check=True,
+    )
 
 
 def train_pd_model(**context):
