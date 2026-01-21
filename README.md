@@ -124,28 +124,24 @@ Model outputs are treated as **risk signals**, not final credit decisions.
 
 ## 🔄 Orchestration (Airflow)
 
-* Airflow is used to orchestrate execution order across pipeline stages
-* Enforces dependencies such as:
+Airflow is introduced to simulate how enterprise risk pipelines manage execution order and dependencies.
 
-  * Gold data readiness before feature engineering
-  * Feature completion before model training
+* DAG structure defines logical sequencing across ingestion, feature engineering, and modelling stages
+* Current implementation focuses on orchestration design rather than full production execution
 
-The DAG is intentionally lightweight and orchestration-only.
-
+This approach mirrors how orchestration is often developed incrementally in real-world systems.
 ---
+## 🧪 Engineering Practices
 
-## 🧪 CI & Engineering Hygiene
+CRIS follows disciplined engineering practices aligned with data and risk teams:
 
-* Lightweight CI pipeline using GitHub Actions
-* Covers:
+* Modular pipeline structure with clear ownership per layer
+* Deterministic data transformations
+* Explicit validation checks at feature level
+* Version-controlled code and documentation
 
-  * Unit tests for core logic
-  * Schema and data contract checks (phased)
-  * Model metric sanity checks (phased)
+Automated CI/CD and large-scale testing are intentionally out of scope for the current stage of the project.
 
-Infrastructure-heavy execution is deliberately excluded from CI.
-
----
 
 ## 📂 Repository Structure
 
@@ -178,13 +174,17 @@ project-root/
 
 ## 📖 Documentation
 
-For a detailed, technical blueprint of the system—including data flow, SQL logic, modelling assumptions, and orchestration design—refer to:
+## 📖 Documentation
 
-```
-docs/CRIS_Developer_Documentation.md
-```
+Technical documentation is maintained incrementally within the `docs/` directory and covers:
 
-This document serves as the **single source of truth** for the system.
+* Data layer responsibilities and schemas
+* Feature engineering logic and assumptions
+* Validation rules and sanity checks
+* Modelling approach and evaluation metrics
+
+The documentation reflects the system as built, rather than an idealised or future-state design.
+
 
 ---
 
