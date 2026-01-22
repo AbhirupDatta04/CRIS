@@ -21,4 +21,12 @@ Planned validations:
 ## Jira Reference
 CRIS-14 — Model Output Validation & Risk Sanity Checks
 
-CRIS-14: document rationale for model output validation
+## Context
+
+Preliminary model evaluation shows unusually strong discriminatory metrics
+(ROC-AUC and KS) due to rule-based label generation using overlapping
+behavioural features.
+
+CRIS-14 is introduced to ensure that model outputs remain logically valid
+and statistically sane, independent of apparent performance metrics.
+
