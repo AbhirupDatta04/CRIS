@@ -20,3 +20,5 @@ Planned validations:
 
 ## Jira Reference
 CRIS-14 — Model Output Validation & Risk Sanity Checks
+
+CRIS-14: document rationale for model output validation
