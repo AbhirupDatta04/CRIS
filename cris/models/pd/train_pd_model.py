@@ -18,11 +18,12 @@ print(df.columns)
 feature_cols = [
     "spend_per_txn_30d",
     "txn_count_30d",
-    "recency_days_is_inactive_30d"
+    "recency_days_is_inactive_30d",
+    "behavioral_stress_flag"
 ]
 
 X = df[feature_cols]
-y = df["default_flag"]
+y = df["observed_default_flag"] # Target variable wrong.Seems fraud risk rather than default risk.
 
 
 model = LogisticRegression(max_iter=1000)
@@ -72,7 +73,7 @@ df_eval = pd.DataFrame({
 
 # 1. Bucket the scores
 df_eval["bucket"] = pd.qcut(df_eval["y_score"], 10, duplicates="drop") # Create 10 equal-sized buckets based on predicted scores Quantile Cut". Sorts all customers by their risk score and chops them into 10 equal-sized buckets (Deciles). Bucket 10 has the riskiest people; Bucket 1 has the safest.
-
+#binning
 
 # Sort by score descending (highest risk first)
 df_eval = df_eval.sort_values("y_score", ascending=False)

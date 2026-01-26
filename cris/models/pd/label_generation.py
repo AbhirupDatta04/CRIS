@@ -37,7 +37,7 @@ def main():
     labeled_df = (
         features_df
         .withColumn(
-            "default_flag",
+            "behavioral_stress_flag",
             when(
                 # High spend + inactivity → stress behaviour
                 (col("recency_days_is_inactive_30d") == 1) &
@@ -60,7 +60,7 @@ def main():
             "txn_count_30d",
             "spend_per_txn_30d",
             "recency_days_is_inactive_30d",
-            "default_flag"
+            "behavioral_stress_flag"
         )
     )
 
