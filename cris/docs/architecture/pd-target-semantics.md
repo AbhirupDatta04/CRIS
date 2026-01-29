@@ -133,6 +133,16 @@ Importantly, this change strengthens CRIS as a **learning and interview-ready pr
 - **CRIS-15: PD Target Semantics Correction (Active)**
 
 ---
+---
+
+## Follow-Up Actions (Planned)
+
+- Introduce a dedicated default-event simulation module
+- Ensure PD target represents a future observed outcome
+- Resume model validation after target correction
+
+(No implementation changes introduced in this ticket.)
+
 
 ## Notes
 
