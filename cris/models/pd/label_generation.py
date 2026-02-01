@@ -47,9 +47,10 @@ def main():
             .when(
                 # Low engagement + large ticket sizes
                 (col("txn_count_30d") <= 2) &
-                (col("spend_per_txn_30d") > 40000) &
-                (rand()<0.6),
-
+                (col("spend_per_txn_30d") > 40000) 
+                # &
+                # (rand()<0.6)
+                ,
                 1
             )
             .otherwise(0)

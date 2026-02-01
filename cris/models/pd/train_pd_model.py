@@ -8,9 +8,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score
 import numpy as np
+from default_event_simulator import generate_observed_default_flag
 
 df = pd.read_parquet("/workspaces/CRIS/cris/datalake/models/pd_training_dataset")
-
+df=generate_observed_default_flag(df)
 print(df.head())
 print(df.columns)
 
