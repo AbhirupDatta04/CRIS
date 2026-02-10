@@ -1,6 +1,6 @@
 # CRIS — Credit Risk Intelligence System
 
-> A bank-style credit risk data pipeline that transforms transaction behaviour into explainable Probability of Default (PD) signals using SQL-first data engineering and baseline statistical modelling.
+> An industry grade bank-style credit risk data pipeline that transforms transaction behaviour into explainable Probability of Default (PD) signals using SQL-first data engineering and baseline statistical modelling.
 
 ---
 
