@@ -101,11 +101,16 @@ Example derived features:
 
 ---
 
-## 🏷️ Label Generation
+## 🏷️ Default Outcome Simulation
 
-* Binary default proxy labels are generated using **simple, explainable rules** based on behavioural signals
-* Controlled randomness is added to avoid deterministic labels
-* This approach mirrors early-stage modelling and experimentation commonly seen in risk teams
+Future default events are generated probabilistically using behavioural
+stress indicators to simulate realistic credit deterioration.
+
+This approach:
+- Separates behavioural signals from default outcomes
+- Avoids label leakage
+- Produces non-deterministic, bank-realistic training targets
+  
 
 ---
 
